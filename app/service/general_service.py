@@ -3,11 +3,11 @@ import uuid
 from app.common.constant import GeneralServiceCons
 
 
-def generate_offline_uuid(u_name: str) -> str:
+def generate_offline_uuid(name: str) -> str:
     return str(
         uuid.uuid3(
             uuid.NAMESPACE_DNS,
-            GeneralServiceCons.OFFLINE_PLAYER + u_name.lower()
+            GeneralServiceCons.OFFLINE_PLAYER + name.lower()
         )
     )
 
@@ -23,7 +23,7 @@ def compare_account(pg_row, my_row) -> bool:
     if my_row[GeneralServiceCons.PASSWD] != mc_password:
         return False
 
-    if my_row[GeneralServiceCons.UUID_OFFLINE] != user_id:
+    if my_row[GeneralServiceCons.UUID_OFFLINE] != generate_offline_uuid(mc_name):
         return False
 
     return True
